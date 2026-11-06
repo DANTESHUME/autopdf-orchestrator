@@ -2,27 +2,36 @@
 
 A client-side web application for processing and analyzing PDF documents. Built for the Kiroween hackathon with a spooky Halloween theme!
 
+## 🔗 Links
+
+- **Live demo**: https://autopdf-orchestrator.vercel.app/
+- **Demo video**: https://youtu.be/Gfs31yIRpdc
+
 ## ✨ Features
 
-### Feature 1: PDF Upload and Preview (✅ Completed)
-- **Drag-and-Drop Upload**: Intuitive interface for uploading PDFs
-- **File Picker Alternative**: Click to browse for traditional file selection
-- **Thumbnail Grid**: View all pages at a glance with lazy-loaded thumbnails
-- **Full-Page Viewer**: Interactive viewer with zoom controls
-  - Zoom in/out (50-300%)
-  - Fit to page
-  - Fit to width
-  - Keyboard shortcuts (+/- for zoom, arrows for navigation)
-- **File Metadata**: Display file name, size, page count, and modification date
-- **File Replacement**: Upload new PDFs without page refresh
-- **Keyboard Navigation**: Full keyboard support for accessibility
-- **Responsive Design**: Works on desktop, tablet, and mobile
+### PDF Upload and Preview
+- Drag-and-drop or file picker upload with PDF validation
+- Lazy-loaded thumbnail grid and full-page viewer with zoom (50-300%, fit page, fit width)
+- File metadata (name, size, page count, date) and keyboard navigation
 
-### Coming Soon
-- **Page Management**: Split and merge PDF pages
-- **Content Extraction**: Extract text and tables from PDFs
-- **Smart Summarization**: Generate summaries and extract keywords (optional LLM API)
-- **Multi-Format Export**: Export as Markdown, JSON, or split PDFs in a ZIP
+### Smart Split & Summarize
+- **Auto split by bookmarks**: reads the PDF outline and resolves each entry to its real page
+- **TOC fallback**: PDFs without bookmarks are split using the table-of-contents page
+- **Local summaries and keywords** for every section, extractive and 100% in-browser (no API key)
+
+### Export
+- One-click ZIP with split PDFs per section, Markdown notes and an HTML notes page
+
+Try it with `samples/kiroween-sample.pdf` (9 pages, 5 bookmarked sections).
+
+## 👻 Built with Kiro
+
+This project was built spec-first in the Kiro IDE. Everything lives in [`.kiro/`](.kiro):
+
+- **Specs** (`.kiro/specs/`): `pdf-upload-preview` and `smart-split-summarize`, each with EARS-style `requirements.md`, `design.md` and `tasks.md`. Kiro executed the task lists step by step.
+- **Steering** (`.kiro/steering/`): project goals, tech stack and code conventions, so every agent run followed the same rules.
+- **Hooks** (`.kiro/hooks/`): runs the Vitest suite when a service file is saved, and reminds the agent to document new components.
+- **Models**: Sonnet for planning specs and design, Haiku for executing tasks.
 
 ## 🎨 Design
 
@@ -49,8 +58,8 @@ A client-side web application for processing and analyzing PDF documents. Built 
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd Kiroween
+git clone https://github.com/DANTESHUME/autopdf-orchestrator.git
+cd autopdf-orchestrator
 
 # Install dependencies
 npm install
@@ -83,7 +92,12 @@ src/
 │   ├── PageViewer.tsx       # Full-page viewer with zoom
 │   └── PDFViewer.tsx        # Container combining grid and viewer
 ├── services/          # Business logic
-│   └── pdfService.ts        # PDF processing functions
+│   ├── pdfService.ts        # PDF loading and rendering
+│   ├── splitService.ts      # Bookmark / TOC section detection and splitting
+│   ├── textService.ts       # Text extraction and cleanup
+│   ├── summaryService.ts    # Local extractive summaries
+│   ├── keywordService.ts    # Keyword extraction
+│   └── exportService.ts     # ZIP export
 ├── types/            # TypeScript definitions
 │   └── pdf.ts              # PDF-related types
 ├── utils/            # Utility functions
@@ -116,7 +130,7 @@ src/
 
 - **100% Client-Side**: All processing happens in your browser
 - **No Backend**: No servers, no data transmission
-- **No Tracking**: No analytics or external services (except pdf.js CDN)
+- **No Tracking**: No analytics or external services (pdf.js worker is bundled locally)
 - **Open Source**: MIT License
 
 ## ⌨️ Keyboard Shortcuts
