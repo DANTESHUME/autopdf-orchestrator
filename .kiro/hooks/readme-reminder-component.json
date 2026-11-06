@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Remind to update README on component changes",
+      "trigger": "PostFileCreate",
+      "description": "Reminds user to update README.md when new components are created",
+      "matcher": "^src/components/.*\\.tsx$",
+      "action": {
+        "type": "agent",
+        "prompt": "A new component was created in src/components/. Remind the user to update README.md if this is a user-facing feature component with documentation."
+      }
+    }
+  ]
+}

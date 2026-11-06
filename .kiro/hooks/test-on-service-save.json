@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run tests on service save",
+      "trigger": "PostFileSave",
+      "description": "Automatically run all tests when a file in src/services is saved",
+      "matcher": "^src/services/.*\\.ts$",
+      "action": {
+        "type": "command",
+        "command": "npm run test -- --run"
+      }
+    }
+  ]
+}

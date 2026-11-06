@@ -1,0 +1,11 @@
+node_modules
+.git
+.kiro
+*.log
+.env.local
+.env
+dist-ssr
+*.local
+.vscode
+.idea
+.DS_Store
